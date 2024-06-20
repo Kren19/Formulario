@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundación Trapitos Con Amor</title>
+    <link rel="shortcut icon" href="img/Favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="image-section">
+    <img src="img/Favicon.png" alt="Imagen al lado del formulario">
+</div>
+<div class="container">
+    <h2>Comentario</h2>
+    <form action="https://formsubmit.co/hortuatatiani@gmail.com" method="POST">
+        <div class="form-group">
+            <label for="subject">Asunto:</label>
+            <select id="subject" name="subject">
+                <option>Saludo</option>
+                <option>Comentario</option>
+                <option>Queja/Reclamo</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="message">Mensaje:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
+            <label class="form-check-label" for="terms">Acepto los <a href="#" id="terms-link">Términos y Condiciones</a></label>
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn">Enviar</button>
+            <button type="reset" class="btn btn-secondary">Cancelar</button>
+            <button type="reset" class="btn btn-secondary" onclick="location.href='index.html'">Volver</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
