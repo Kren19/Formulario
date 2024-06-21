@@ -1,168 +1,172 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fundación Trapitos Con Amor</title>
-    <link rel="shortcut icon" href="Favicon.png" type="image/x-icon">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, #FFDA44, #FFDA44 33.33%, #0033A0 33.33%, #0033A0 66.66%, #CE1126 66.66%);
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 700px;
-            box-sizing: border-box;
-            margin: 20px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .image-section img {
-            max-width: 350px;
-            border-radius: 8px;
-        }
-
-        h2 {
-            margin-bottom: 20px;
-            text-align: center;
-            margin-top: 0;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: calc(100% - 20px);
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            margin: 0 10px;
-        }
-
-        .form-check {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .form-check-input {
-            margin-right: 10px;
-        }
-
-        .form-check-label {
-            margin: 0;
-        }
-
-        .form-check a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .form-check a:hover {
-            text-decoration: underline;
-        }
-
-        .form-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-        }
-
-        .btn-secondary {
-            background-color: #ccc;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            color: #fff;
-        }
-
-        /* Media Query para Dispositivos Móviles */
-        @media (max-width: 600px) {
-            .container {
-                flex-direction: column;
-                padding: 20px;
-            }
-
-            .image-section img {
-                max-width: 100%; /* Ajusta el tamaño máximo a la anchura del contenedor */
-                height: auto; /* Permite que la altura se ajuste proporcionalmente */
-                border-radius: 8px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comentarios Anónimos</title>
+<style>
+  /* Estilos básicos para el formulario y los comentarios */
+  .comment-section {
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  .comment {
+    position: relative;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #eee;
+  }
+  .comment .delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    color: red;
+  }
+  .hidden {
+    display: none;
+  }
+</style>
 </head>
 <body>
-<div class="container">
-    <div class="image-section">
-        <img src="Favicon.png" alt="Imagen al lado del formulario">
+  <div class="comment-section">
+    <h2>Deja tu comentario</h2>
+    <form id="commentForm">
+      <div id="nameField" class="hidden">
+        <label for="username">Tu nombre:</label>
+        <input type="text" id="username" name="username">
+        <br><br>
+      </div>
+      <label for="commentType">Selecciona el tipo de comentario:</label>
+      <select id="commentType" name="commentType">
+        <option value="anonimo">Anónimo</option>
+        <option value="nombre">Diligenciar Nombre</option>
+      </select>
+      <br><br>
+      <label for="comment">Comentario:</label>
+      <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
+      <br><br>
+      <button type="submit">Enviar Comentario</button>
+    </form>
+    <div id="commentList">
+      <!-- Aquí se mostrarán los comentarios -->
     </div>
-    <div class="form-section">
-        <h2>Comentario</h2>
-        <form action="https://formsubmit.co/df53b7ffd63ee5eca06487ae91f8d048" method="POST">
-            <div class="form-group">
-                <label for="subject">Asunto:</label>
-                <select id="subject" name="subject" required>
-                    <option value="">Seleccione un asunto</option>
-                    <option value="Saludo">Saludo</option>
-                    <option value="Comentario">Comentario</option>
-                    <option value="Queja/Reclamo">Queja/Reclamo</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="message">Mensaje:</label>
-                <textarea id="message" name="message" rows="5" required></textarea>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
-                <label class="form-check-label" for="terms">Acepto los <a href="#" id="terms-link">Términos y Condiciones</a></label>
-            </div>
-            <div class="form-buttons">
-                <button type="submit" class="btn btn-primary">Enviar</button>
-                <button type="reset" class="btn btn-secondary">Cancelar</button>
-                <button type="button" class="btn btn-secondary" onclick="location.href='index.html'">Volver</button>
-            </div>
-        </form>
-    </div>
-</div>
+  </div>
+
+  <script>
+    // Identificador único para el usuario
+    const commenterId = Date.now();
+
+    // Función para manejar el cambio en la selección del tipo de comentario
+    document.getElementById('commentType').addEventListener('change', function() {
+      var selectedOption = this.value;
+      var nameField = document.getElementById('nameField');
+
+      if (selectedOption === 'nombre') {
+        nameField.classList.remove('hidden');
+      } else {
+        nameField.classList.add('hidden');
+      }
+    });
+
+    // Función para manejar el envío del formulario
+    document.getElementById('commentForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevenir el envío por defecto
+      
+      // Obtener valores del formulario
+      var username = document.getElementById('username').value;
+      var commentType = document.getElementById('commentType').value;
+      var comment = document.getElementById('comment').value;
+
+      // Crear un identificador único para el comentario (simulación)
+      var commentId = Date.now();
+
+      // Crear un objeto para almacenar el comentario
+      var newComment = {
+        id: commentId,
+        commenterId: commenterId,
+        username: username,
+        comment: comment
+      };
+
+      // Obtener la lista de comentarios del almacenamiento local o inicializarla
+      var comments = JSON.parse(localStorage.getItem('comments')) || [];
+
+      // Agregar el nuevo comentario a la lista
+      comments.push(newComment);
+
+      // Guardar la lista de comentarios en el almacenamiento local
+      localStorage.setItem('comments', JSON.stringify(comments));
+
+      // Mostrar los comentarios actualizados
+      showComments();
+    });
+
+    // Función para mostrar los comentarios almacenados
+    function showComments() {
+      var comments = JSON.parse(localStorage.getItem('comments')) || [];
+
+      var commentListDiv = document.getElementById('commentList');
+      commentListDiv.innerHTML = ''; // Limpiar la lista de comentarios antes de mostrarlos
+
+      comments.forEach(function(comment) {
+        var commentDiv = document.createElement('div');
+        commentDiv.classList.add('comment');
+        
+        // Crear botón para eliminar comentario (solo visible para el usuario que lo escribió)
+        var deleteBtn = document.createElement('span');
+        deleteBtn.classList.add('delete-btn');
+        deleteBtn.innerHTML = 'Eliminar';
+        deleteBtn.onclick = function() {
+          deleteComment(comment.id);
+        };
+
+        // Construir contenido del comentario
+        var commentText = '';
+        if (comment.username) {
+          commentText = '<strong>' + comment.username + ':</strong> ' + comment.comment;
+        } else {
+          commentText = '<strong>Anónimo:</strong> ' + comment.comment;
+        }
+        
+        // Agregar contenido del comentario al div
+        commentDiv.innerHTML = commentText;
+
+        // Agregar botón de eliminar solo si el commenterId coincide
+        if (comment.commenterId === commenterId) {
+          commentDiv.appendChild(deleteBtn);
+        }
+
+        // Agregar comentario al contenedor
+        commentListDiv.appendChild(commentDiv);
+      });
+    }
+
+    // Función para eliminar un comentario
+    function deleteComment(commentId) {
+      console.log('Intentando eliminar comentario con ID:', commentId);
+      
+      var comments = JSON.parse(localStorage.getItem('comments')) || [];
+      console.log('Comentarios antes de la eliminación:', comments);
+
+      // Filtrar comentarios y mantener solo los que no coincidan con el id del comentario a eliminar
+      comments = comments.filter(function(comment) {
+        return comment.id !== commentId;
+      });
+      
+      console.log('Comentarios después de la eliminación:', comments);
+
+      localStorage.setItem('comments', JSON.stringify(comments)); // Actualizar localStorage
+
+      // Mostrar comentarios actualizados después de la eliminación
+      showComments();
+    }
+
+    // Mostrar los comentarios almacenados al cargar la página
+    showComments();
+  </script>
 </body>
 </html>
