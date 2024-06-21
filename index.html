@@ -7,17 +7,20 @@
 <style>
   /* Estilos básicos para el formulario y los comentarios */
   .comment-section {
-    width: 80%;
-    margin: auto;
-    margin-top: 20px;
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto; /* Centra el contenedor horizontalmente y da un margen superior/inferior */
+    padding: 20px;
     border: 1px solid #ccc;
-    padding: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-sizing: border-box; /* Incluye padding y border en el tamaño total */
   }
   .comment {
     position: relative;
     margin-bottom: 10px;
     padding: 10px;
     border: 1px solid #eee;
+    border-radius: 5px;
   }
   .comment .delete-btn {
     position: absolute;
@@ -29,6 +32,29 @@
   .hidden {
     display: none;
   }
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  input[type="text"], textarea, select, button {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
 </style>
 </head>
 <body>
@@ -38,17 +64,14 @@
       <div id="nameField" class="hidden">
         <label for="username">Tu nombre:</label>
         <input type="text" id="username" name="username">
-        <br><br>
       </div>
       <label for="commentType">Selecciona el tipo de comentario:</label>
       <select id="commentType" name="commentType">
         <option value="anonimo">Anónimo</option>
         <option value="nombre">Diligenciar Nombre</option>
       </select>
-      <br><br>
       <label for="comment">Comentario:</label>
-      <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
-      <br><br>
+      <textarea id="comment" name="comment" rows="4"></textarea>
       <button type="submit">Enviar Comentario</button>
     </form>
     <div id="commentList">
@@ -147,17 +170,12 @@
 
     // Función para eliminar un comentario
     function deleteComment(commentId) {
-      console.log('Intentando eliminar comentario con ID:', commentId);
-      
       var comments = JSON.parse(localStorage.getItem('comments')) || [];
-      console.log('Comentarios antes de la eliminación:', comments);
 
       // Filtrar comentarios y mantener solo los que no coincidan con el id del comentario a eliminar
       comments = comments.filter(function(comment) {
         return comment.id !== commentId;
       });
-      
-      console.log('Comentarios después de la eliminación:', comments);
 
       localStorage.setItem('comments', JSON.stringify(comments)); // Actualizar localStorage
 
