@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comentarios Anónimos</title>
+<style>
+  /* Estilos básicos para el formulario y los comentarios */
+  .comment-section {
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto; /* Centra el contenedor horizontalmente y da un margen superior/inferior */
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-sizing: border-box; /* Incluye padding y border en el tamaño total */
+  }
+  .comment {
+    position: relative;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+  }
+  .comment .delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    color: red;
+  }
+  .hidden {
+    display: none;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  input[type="text"], textarea, select, button {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+</style>
+</head>
+<body>
+  <div class="comment-section">
+    <h2>Deja tu comentario</h2>
+    <form id="commentForm">
+      <div id="nameField" class="hidden">
+        <label for="username">Tu nombre:</label>
+        <input type="text" id="username" name="username">
+      </div>
+      <label for="commentType">Selecciona el tipo de comentario:</label>
+      <select id="commentType" name="commentType">
+        <option value="anonimo">Anónimo</option>
+        <option value="nombre">Diligenciar Nombre</option>
+      </select>
+      <label for="comment">Comentario:</label>
+      <textarea id="comment" name="comment" rows="4"></textarea>
+      <button type="submit">Enviar Comentario</button>
+    </form>
+    <div id="commentList">
+      <!-- Aquí se mostrarán los comentarios -->
+    </div>
+  </div>
+
+  <script>
+    // Identificador único para el usuario
+    const commenterId = Date.now();
+
+    // URL del servidor Node.js
+    const serverUrl = 'http://localhost:3000/comments';
+
+    // Función para manejar el cambio en la selección del tipo de comentario
+    document.getElementById('commentType').addEventListener('change', function() {
+      var selectedOption = this.value;
+      var nameField = document.getElementById('nameField');
+
+      if (selectedOption === 'nombre') {
+        nameField.classList.remove('hidden');
+      } else {
+        nameField.classList.add('hidden');
+      }
+    });
+
+    // Función para manejar el envío del formulario
+    document.getElementById('commentForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevenir el envío por defecto
+      
+      // Obtener valores del formulario
+      var username = document.getElementById('username').value;
+      var commentType = document.getElementById('commentType').value;
+      var comment = document.getElementById('comment').value;
+
+      // Crear un identificador único para el comentario (simulación)
+      var commentId = Date.now();
+
+      // Crear un objeto para almacenar el comentario
+      var newComment = {
+        commenterId: commenterId,
+        username: commentType === 'nombre' ? username : '',
+        comment: comment
+      };
+
+      // Enviar el comentario al servidor
+      fetch(serverUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newComment)
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Mostrar los comentarios actualizados
+        showComments();
+      });
+    });
+
+    // Función para mostrar los comentarios almacenados
+    function showComments() {
+      fetch(serverUrl)
+        .then(response => response.json())
+        .then(comments => {
+          // Limpiar la lista de comentarios antes de mostrar los nuevos
+          document.getElementById('commentList').innerHTML = '';
+
+          // Iterar sobre los comentarios y mostrar cada uno
+          comments.forEach(comment => {
+            var commentElement = document.createElement('div');
+            commentElement.classList.add('comment');
+
+            var commenterInfo = document.createElement('p');
+            if (comment.username) {
+              commenterInfo.textContent = `Nombre: ${comment.username}`;
+            } else {
+              commenterInfo.textContent = 'Anónimo';
+            }
+
+            var commentText = document.createElement('p');
+            commentText.textContent = comment.comment;
+
+            var deleteButton = document.createElement('span');
+            deleteButton.classList.add('delete-btn');
+            deleteButton.textContent = 'Eliminar';
+            deleteButton.addEventListener('click', function() {
+              deleteComment(comment.id);
+            });
+
+            commentElement.appendChild(commenterInfo);
+            commentElement.appendChild(commentText);
+            commentElement.appendChild(deleteButton);
+
+            document.getElementById('commentList').appendChild(commentElement);
+          });
+        });
+    }
+
+    // Función para eliminar un comentario
+    function deleteComment(commentId) {
+      fetch(`${serverUrl}/${commentId}`, {
+        method: 'DELETE'
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Mostrar los comentarios actualizados después de eliminar
+        showComments();
+      });
+    }
+
+    // Mostrar los comentarios inicialmente al cargar la página
+    showComments();
+  </script>
+</body>
+</html>
